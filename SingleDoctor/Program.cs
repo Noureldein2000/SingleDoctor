@@ -1,8 +1,24 @@
+using DataAccess;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Services.BaseRepository;
+using Services.Repositiories.Implementation;
+using Services.Repositiories.Interface;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped(typeof(ApplicationDbContext));
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddMediatR(typeof(Program));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
