@@ -13,11 +13,9 @@ namespace SingleDoctor.Controllers
     [ApiController]
     public class AppointmentController : ControllerBase
     {
-        private readonly IAppointmentService _appointmentService;
         private readonly IMediator _mediator;
-        public AppointmentController(IAppointmentService appointmentService, IMediator mediator)
+        public AppointmentController( IMediator mediator)
         {
-            _appointmentService = appointmentService;
             _mediator = mediator;
         }
 
